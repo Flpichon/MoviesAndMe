@@ -24,10 +24,11 @@ class News extends React.Component {
   _loadFilms() {
     this.setState({ isLoading: true })
     getBestFilmsFromApi(this.page+1).then(data => {
-        this.page = data.page
-        this.totalPages = data.total_pages
+        this.page = data.page;
+        this.totalPages = data.total_pages;
+        const filmFiltered = [ ...this.state.films, ...data.results ].filter( (value ,index , array) => array.findIndex(val => (val.id === value.id)) === index );
         this.setState({
-          films: [ ...this.state.films, ...data.results ],
+          films: filmFiltered,
           isLoading: false
         })
     })
